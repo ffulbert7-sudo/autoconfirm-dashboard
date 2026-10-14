@@ -9,6 +9,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Create local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
       - name: Build APK
         run: |
           chmod +x gradlew
