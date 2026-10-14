@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 conn.disconnect();
                 final String finalCookie = cookie != null ? cookie : "";
                 handler.post(() -> {
-                    if (finalCookie.contains("connect.sid")) {
+                    if (finalCookie.contains("authToken")) {
                         String sessionCookie = finalCookie.split(";")[0];
                         SharedPreferences.Editor editor = getSharedPreferences("config", MODE_PRIVATE).edit();
                         editor.putString("server_url", serverUrl);
