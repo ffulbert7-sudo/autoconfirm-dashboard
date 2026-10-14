@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void doLogin() {
-        final String url = etUrl.getText().toString().trim();
+        final String serverUrl = etUrl.getText().toString().trim();
         final String email = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
         if (url.isEmpty() || email.isEmpty() || password.isEmpty()) {
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         new Thread(() -> {
             try {
                 String body = "email=" + URLEncoder.encode(email, "UTF-8") + "&password=" + URLEncoder.encode(password, "UTF-8");
-                URL loginUrl = new URL(url + "/login");
+                URL loginUrl = new URL(serverUrl + "/login");
                 HttpURLConnection conn = (HttpURLConnection) loginUrl.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (finalCookie.contains("connect.sid")) {
                         String sessionCookie = finalCookie.split(";")[0];
                         SharedPreferences.Editor editor = getSharedPreferences("config", MODE_PRIVATE).edit();
-                        editor.putString("server_url", url);
+                        editor.putString("server_url", serverUrl);
                         editor.putString("session_cookie", sessionCookie);
                         editor.apply();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
