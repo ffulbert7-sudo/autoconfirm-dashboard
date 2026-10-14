@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         final String serverUrl = etUrl.getText().toString().trim();
         final String email = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
-        if (url.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (serverUrl.isEmpty() || email.isEmpty() || password.isEmpty()) {
             tvError.setText("Tous les champs sont requis");
             tvError.setVisibility(View.VISIBLE);
             return;
