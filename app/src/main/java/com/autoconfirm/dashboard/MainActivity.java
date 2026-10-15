@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         webView.loadUrl(serverUrl + "/");
+        // Demarrer AlertService
+        startService(new Intent(this, AlertService.class));
     }
 
     @Override
