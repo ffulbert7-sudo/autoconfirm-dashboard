@@ -71,13 +71,26 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             }
         }
-        // Creer canal notification immediatement
+        // Creer canal et envoyer notif de bienvenue
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             android.app.NotificationChannel channel = new android.app.NotificationChannel(
                 "AutoConfirmAlerts", "Alertes AutoConfirm", android.app.NotificationManager.IMPORTANCE_HIGH);
             channel.enableVibration(true);
             android.app.NotificationManager nm = getSystemService(android.app.NotificationManager.class);
             if (nm != null) nm.createNotificationChannel(channel);
+        }
+        // Notification de bienvenue pour enregistrer l'app
+        SharedPreferences prefsCheck = getSharedPreferences("config", MODE_PRIVATE);
+        if (!prefsCheck.getBoolean("notif_init", false)) {
+            androidx.core.app.NotificationCompat.Builder builder = new androidx.core.app.NotificationCompat.Builder(this, "AutoConfirmAlerts")
+                .setContentTitle("✅ AutoConfirm Dashboard")
+                .setContentText("Alertes activées ! Vous serez notifié des sessions expirées.")
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setPriority(androidx.core.app.NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+            android.app.NotificationManager nm2 = (android.app.NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (nm2 != null) nm2.notify(999, builder.build());
+            prefsCheck.edit().putBoolean("notif_init", true).apply();
         }
     }
 
