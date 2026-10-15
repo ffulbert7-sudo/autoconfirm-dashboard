@@ -71,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             }
         }
+        // Creer canal notification immediatement
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            android.app.NotificationChannel channel = new android.app.NotificationChannel(
+                "AutoConfirmAlerts", "Alertes AutoConfirm", android.app.NotificationManager.IMPORTANCE_HIGH);
+            channel.enableVibration(true);
+            android.app.NotificationManager nm = getSystemService(android.app.NotificationManager.class);
+            if (nm != null) nm.createNotificationChannel(channel);
+        }
     }
 
     @Override
