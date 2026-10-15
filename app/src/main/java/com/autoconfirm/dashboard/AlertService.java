@@ -45,12 +45,14 @@ public class AlertService extends Service {
                 SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
                 String serverUrl = prefs.getString("server_url", "https://autoconfirm.online");
                 String cookie = prefs.getString("session_cookie", "");
-                if (!cookie.isEmpty()) {
-                    URL url = new URL(serverUrl + "/api/user/alerts");
+                String alertToken = prefs.getString("alert_token", "");
+                String apiUrl = !alertToken.isEmpty() ? serverUrl + "/api/alerts?token=" + alertToken : serverUrl + "/api/user/alerts";
+                if (!cookie.isEmpty() || !alertToken.isEmpty()) {
+                    URL url = new URL(apiUrl);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setConnectTimeout(10000);
                     conn.setReadTimeout(10000);
-                    conn.setRequestProperty("Cookie", cookie);
+                    if (!cookie.isEmpty()) conn.setRequestProperty("Cookie", cookie);
                     if (conn.getResponseCode() == 200) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         StringBuilder sb = new StringBuilder();

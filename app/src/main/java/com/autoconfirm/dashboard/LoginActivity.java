@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         tvError = findViewById(R.id.tv_error);
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
         etUrl.setText(prefs.getString("server_url", "https://autoconfirm.online"));
+        EditText etToken = findViewById(R.id.et_token);
+        etToken.setText(prefs.getString("alert_token", ""));
         btnLogin.setOnClickListener(v -> doLogin());
     }
 
@@ -71,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = getSharedPreferences("config", MODE_PRIVATE).edit();
                         editor.putString("server_url", serverUrl);
                         editor.putString("session_cookie", sessionCookie);
+                        EditText etTok = findViewById(R.id.et_token);
+                        if (etTok != null) editor.putString("alert_token", etTok.getText().toString().trim());
                         editor.apply();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
