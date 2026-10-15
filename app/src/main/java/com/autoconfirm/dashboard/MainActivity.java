@@ -3,6 +3,7 @@ package com.autoconfirm.dashboard;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Build;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
