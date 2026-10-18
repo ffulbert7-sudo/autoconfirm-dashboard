@@ -93,6 +93,14 @@ public class AlertService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                 ALERT_CHANNEL, "Alertes AutoConfirm", NotificationManager.IMPORTANCE_HIGH);
+                channel.setSound(android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_ALARM),
+                    new android.media.AudioAttributes.Builder()
+                        .setUsage(android.media.AudioAttributes.USAGE_ALARM)
+                        .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build());
+                channel.enableVibration(true);
+                channel.setVibrationPattern(new long[]{0, 500, 200, 500, 200, 500});
+                channel.setBypassDnd(true);
             channel.enableVibration(true);
             channel.setVibrationPattern(new long[]{0, 500, 200, 500, 200, 500});
             channel.setSound(Settings.System.DEFAULT_ALARM_ALERT_URI,
